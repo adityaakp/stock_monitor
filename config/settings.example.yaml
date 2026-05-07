@@ -1,0 +1,58 @@
+# Copy this file to settings.yaml and fill in your values.
+#
+# === Telegram Bot Setup ===
+# 1. Buka Telegram, cari @BotFather
+# 2. Kirim /newbot, ikuti instruksi, simpan TOKEN-nya
+# 3. Cari bot kamu, kirim pesan apa saja (misal "halo")
+# 4. Buka https://api.telegram.org/bot<TOKEN>/getUpdates di browser
+# 5. Cari "chat":{"id":...}  -> itu chat_id kamu
+
+telegram:
+  enabled: true
+  bot_token: "PASTE_YOUR_BOT_TOKEN_HERE"
+  chat_id: "PASTE_YOUR_CHAT_ID_HERE"
+
+# Watchlist: kosongkan untuk pakai LQ45 default, atau isi kode saham custom
+watchlist:
+  use_lq45: true
+  custom: []  # contoh: ["BBCA", "TLKM", "ASII"]
+
+# Threshold scoring (0-100, semakin tinggi semakin ketat)
+scoring:
+  min_score_to_alert: 65       # hanya kirim alert jika skor >= nilai ini
+  weights:
+    technical: 0.40            # bobot indikator teknikal
+    volume: 0.25               # bobot analisis volume
+    fundamental: 0.35          # bobot rasio fundamental
+
+# Parameter teknikal
+technical:
+  rsi_period: 14
+  rsi_oversold: 30
+  rsi_bullish_zone: [40, 60]   # zona momentum bangkit
+  ma_short: 20
+  ma_long: 50
+  bollinger_period: 20
+  bollinger_std: 2
+
+# Parameter volume
+volume:
+  spike_multiplier: 1.5        # volume hari ini >= 1.5x rata-rata 20 hari = spike
+  lookback_days: 20
+
+# Parameter fundamental (idealnya per sektor, ini default umum)
+fundamental:
+  max_per: 25.0                # P/E ratio wajar
+  max_pbv: 3.0                 # P/B ratio wajar
+  min_roe: 10.0                # ROE minimum (%)
+
+# Schedule
+schedule:
+  run_mode: "once"             # "once" = jalan sekali, "daily" = harian, "interval" = berkala
+  daily_time: "16:30"          # jam IDX tutup (WIB)
+  interval_minutes: 60         # untuk run_mode: interval
+
+# Data fetching
+data:
+  history_days: 90             # ambil 90 hari terakhir untuk hitung indikator
+  request_delay_seconds: 1.0   # delay antar request supaya sopan ke server
